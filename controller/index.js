@@ -41,6 +41,9 @@ exports.image = async (request, response, next) => {
             return responseHandler.errorResponse(response, 422, messages);
         }
         const { pageNo, limit } = request.body;
+        if ((pageNo <= 0) || (limit <= 0)) {
+            return responseHandler.errorResponse(response, 400, "pageNo or limit should be greater than 0");
+        }
         // calculating total pages available as per limit
         let totalPages = Math.ceil(data.length / limit);
         // if pageNo passed in request is greater than total pages then we don't return any data
